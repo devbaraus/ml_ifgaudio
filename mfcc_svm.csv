@@ -1,0 +1,2 @@
+,feature,segment_time,noise_percentage,feature_coeff,augmentation,f1_micro,f1_macro
+0,mfcc,4,0,24,1,0.8475609756097561,0.7859649122807016
