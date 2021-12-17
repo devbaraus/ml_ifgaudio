@@ -20,21 +20,26 @@ parser.add_argument('-f', action='store', dest='feature', required=False, help='
 parser.add_argument('-c', nargs='+', type=int, action='store', dest='coeffs', required=False, help='Coeficientes',
                     default=[512])
 parser.add_argument('-a', nargs='+', type=int, action='store', dest='augmentation', required=False, help='Augmentation',
-                    default=[1, 2, 5, 10, 15])
+                    default=[10])
+parser.add_argument('-n', nargs='+', type=float, action='store', dest='noise', required=False, help='Noise',
+                    default=np.arange(0, 1.01, 0.25).tolist())
+parser.add_argument('-s', nargs='+', type=int, action='store', dest='segment', required=False, help='Segment ime',
+                    default=list(range(1, 5)))
+
 
 args = parser.parse_args()
 
 params = {
-    # 'segment_time': list(range(1, 5)),
-    'segment_time': [2],
-    # 'noise': np.arange(0, 1.01, 0.5).tolist(),
-    'noise': [0],
-    # 'coeffs': args.coeffs,
-    'coeffs': [1024, 2048],
-    'augmentation': [1, 5, 10],
-    # 'augmentation': args.augmentation,
-    # 'feature': args.feature
-    'feature': 'lpc'
+    'segment_time': args.segment,
+    # 'segment_time': [2],
+    'noise': args.noise,
+    # 'noise': [0],
+    'coeffs': args.coeffs,
+    # 'coeffs': [1024, 2048],
+    # 'augmentation': [1, 5, 10],
+    'augmentation': args.augmentation,
+    'feature': args.feature
+    # 'feature': 'lpc'
 }
 
 print(params)
@@ -46,7 +51,10 @@ datatable = {
     'feature_coeff': [],
     'augmentation': [],
     'f1_micro': [],
-    'f1_macro': []
+    'f1_macro': [],
+    'representation_size': [],
+    'train_size':[],
+    'test_size':[]
 }
 
 fs = 24000
@@ -58,6 +66,7 @@ if False:
     noise = 0
 
 for segment in params['segment_time']:
+    print('[SEG] ', segment)
     mat_audios = sio.loadmat(f'datasets/ifgaudioData{segment}seg.mat')
     mat_audios = mat_audios['ifgaudioData']
 
@@ -110,9 +119,11 @@ for segment in params['segment_time']:
                 print(f'[{params["feature"].upper()}] ', coeff)
                 X_train_rep = None
                 X_test_rep = None
+                rep_shape = None
 
                 if params['feature'] == 'mfcc':
                     rep_size = librosa.feature.mfcc(X_train_aug[0], fs, n_mfcc=coeff)
+                    rep_shape = rep_size.shape
                     X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
                     X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
@@ -126,6 +137,7 @@ for segment in params['segment_time']:
 
                 if params['feature'] == 'stft':
                     rep_size = np.abs(librosa.stft(X_train_aug[0], n_fft=coeff))
+                    rep_shape = rep_size.shape
                     X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
                     X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
@@ -139,6 +151,7 @@ for segment in params['segment_time']:
 
                 if params['feature'] == 'lpc':
                     rep_size = librosa.lpc(X_train_aug[0], order=coeff)
+                    rep_shape = rep_size.shape
                     X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
                     X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
@@ -166,7 +179,7 @@ for segment in params['segment_time']:
                 clf = SVC(kernel='linear', C=10)
                 scoring = ['precision_macro', 'recall_macro', 'f1_macro', 'f1_micro']
                 scores = cross_validate(clf, X_train_rep, y_train_rep,
-                                        scoring=scoring, cv=5,
+                                        scoring=scoring, cv=3,
                                         return_estimator=True,
                                         return_train_score=True)
 
@@ -186,6 +199,12 @@ for segment in params['segment_time']:
                 datatable['augmentation'].append(augmentation)
                 datatable['f1_micro'].append(fmicro)
                 datatable['f1_macro'].append(fmacro)
+                datatable['train_size'].append(X_train.shape)
+                datatable['test_size'].append(X_test.shape)
+                datatable['representation_size'].append(rep_shape)
 
-df = pd.DataFrame(datatable)
-df.to_csv(f'{params["feature"]}_svm.csv')
+
+                df = pd.DataFrame(datatable)
+                df.to_csv(f'results/{params["feature"]}_svm.csv')
+
+                del X_train_rep, X_test_rep, y_train_rep, y_test_rep
