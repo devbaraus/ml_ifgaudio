@@ -2,3 +2,4 @@ venv
 datasets
 base_portuguese
 .idea
+*.log
