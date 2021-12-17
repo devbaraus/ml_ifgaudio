@@ -78,7 +78,7 @@ def process_stft(arg):
     return rep.flatten()
 
 def process_fft(arg):
-    return np.abs(np.fft(arg[0]))
+    return np.abs(np.fft.fft(arg[0]))
 
 if __name__ == '__main__':   
     print(params)
@@ -176,7 +176,7 @@ if __name__ == '__main__':
                         X_test_rep = np.array(X_test_rep)
 
                     if params['feature'] == 'fft':
-                        rep_size = np.fft(X_train_aug[0])
+                        rep_size = np.fft.fft(X_train_aug[0])
                         rep_shape = rep_size.shape
                         X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
                         X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
