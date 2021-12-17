@@ -181,7 +181,8 @@ for segment in params['segment_time']:
                 scores = cross_validate(clf, X_train_rep, y_train_rep,
                                         scoring=scoring, cv=3,
                                         return_estimator=True,
-                                        return_train_score=True)
+                                        return_train_score=True,
+                                        n_jobs=-1)
 
                 # PREDICT
                 print('[PREDICT] starting')
