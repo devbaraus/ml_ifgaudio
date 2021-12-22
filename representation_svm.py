@@ -27,7 +27,8 @@ parser.add_argument('-n', nargs='+', type=float, action='store', dest='noise', r
                     default=np.arange(0, 1.01, 0.25).tolist())
 parser.add_argument('-s', nargs='+', type=int, action='store', dest='segment', required=False, help='Segment ime',
                     default=list(range(1, 5)))
-
+parser.add_argument('-p', type=bool, action='store', dest='parallel', required=False, help='Use parallel to representation',
+                    default=False)
 
 args = parser.parse_args()
 
@@ -40,7 +41,8 @@ params = {
     # 'coeffs': [1024, 2048],
     # 'augmentation': [1, 5, 10],
     'augmentation': args.augmentation,
-    'feature': args.feature
+    'feature': args.feature,
+    'parallel': args.parallel
     # 'feature': 'lpc'
 }
 
@@ -78,7 +80,7 @@ def process_stft(arg):
     return rep.flatten()
 
 def process_fft(arg):
-    return np.abs(np.fft.fft(arg[0]))
+    return np.abs(np.fft.fft(arg[0], n=arg[1]))
 
 if __name__ == '__main__':   
     print(params)
@@ -176,15 +178,25 @@ if __name__ == '__main__':
                         X_test_rep = np.array(X_test_rep)
 
                     if params['feature'] == 'fft':
-                        rep_size = np.abs(np.fft.fft(X_train_aug[0]))
+                        rep_size = np.abs(np.fft.fft(X_train_aug[0], n=coeff))
                         rep_shape = rep_size.shape
                         X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
                         X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
-                        X_train_rep = pool_obj.map(process_fft,X_train_aug)
-                        X_train_rep = np.array(X_train_rep)
-                        X_test_rep = pool_obj.map(process_fft,X_test)
-                        X_test_rep = np.array(X_test_rep)
+                        if params['parallel']:
+                            X_train_rep = pool_obj.map(process_fft,zip(X_train_aug, repeat(coeff,X_train_aug.shape[0])))
+                            X_train_rep = np.array(X_train_rep)
+                            X_test_rep = pool_obj.map(process_fft,zip(X_test, repeat(coeff,X_train_aug.shape[0])))
+                            X_test_rep = np.array(X_test_rep)
+                        else:
+                            for i in range(X_train_aug.shape[0]):
+                                rep = np.abs(np.fft.fft(X_train_aug[i], n=coeff))
+                                X_train_rep[i] = rep.flatten()
+
+                            for i in range(X_test.shape[0]):
+                                rep = np.abs(np.fft.fft(X_test[i], n=coeff))
+                                X_test_rep[i] = rep.flatten()
+
 
                     se = StandardScaler()
                     le = LabelEncoder()
