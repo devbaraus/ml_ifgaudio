@@ -14,7 +14,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
-from keras.wrappers.scikit_learn import KerasClassifier
 
 from deep_audio import Math
 import time
@@ -49,54 +48,6 @@ def output_dir():
         t += f'_aug{args.augmentation[0]}'
     
     return t
-
-def build_perceptron(output, shape, dense1=512, dense2=256, dense3=128, learning_rate=0.0001):
-    import tensorflow.keras as keras
-
-    model = keras.Sequential()
-
-    model.add(keras.layers.Flatten(
-        input_shape=(shape[1], shape[2])))
-
-    model.add(keras.layers.Dense(dense1, activation='relu'))
-    model.add(keras.layers.Dense(dense2, activation='relu'))
-    model.add(keras.layers.Dense(dense3, activation='relu'))
-    model.add(keras.layers.Dense(output, activation='softmax'))
-
-    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
-
-    model.compile(optimizer=optimizer,
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
-
-    return model
-
-def build_cnn(output, shape, resizing=(32, 32), conv2d1=32, conv2d2=64, dropout1=0.25, dropout2=0.5, dense=128, learning_rate=0.0001):
-    import tensorflow.keras as keras
-    from tensorflow.keras.layers.experimental import preprocessing
-
-
-    input_shape = (1, shape[1], 1)
-
-    model = keras.Sequential()
-    model.add(keras.layers.Input(shape=input_shape))
-    model.add(preprocessing.Resizing(resizing[0], resizing[1]))
-    model.add(keras.layers.Conv2D(conv2d1, 3, activation='relu'))
-    model.add(keras.layers.Conv2D(conv2d2, 3, activation='relu'))
-    model.add(keras.layers.MaxPooling2D())
-    model.add(keras.layers.Dropout(dropout1))
-    model.add(keras.layers.Flatten())
-    model.add(keras.layers.Dense(dense, activation='relu'))
-    model.add(keras.layers.Dropout(dropout2))
-    model.add(keras.layers.Dense(output,  activation='softmax'))
-
-    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
-
-    model.compile(optimizer=optimizer,
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
-
-    return model
 
 params = {
     'segment_time': args.segment,
@@ -202,26 +153,16 @@ if __name__ == '__main__':
                         rep_size = librosa.feature.mfcc(X_train_aug[0], fs, n_mfcc=coeff)
                         rep_shape = rep_size.shape
                         
-                        if params['model'] in ['svm', 'knn']:
-                            X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
-                            X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
-                        else:
-                            X_train_rep = np.zeros((X_train_aug.shape[0], rep_shape[0], rep_shape[1]))
-                            X_test_rep = np.zeros((X_test.shape[0], rep_shape[0], rep_shape[1]))
+                        X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
+                        X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
                         for i in range(X_train_aug.shape[0]):
                             rep = librosa.feature.mfcc(X_train_aug[i], fs, n_mfcc=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = librosa.feature.mfcc(X_test[i], fs, n_mfcc=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
 
                     if params['feature'] == 'stft':
                         rep_size = np.abs(librosa.stft(X_train_aug[0], n_fft=coeff))
@@ -231,17 +172,11 @@ if __name__ == '__main__':
 
                         for i in range(X_train_aug.shape[0]):
                             rep = np.abs(librosa.stft(X_train_aug[i], n_fft=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = np.abs(librosa.stft(X_test[i], n_fft=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
 
                     if params['feature'] == 'lpc':
                         rep_size = librosa.lpc(X_train_aug[0], order=coeff)
@@ -251,17 +186,11 @@ if __name__ == '__main__':
 
                         for i in range(X_train_aug.shape[0]):
                             rep = librosa.lpc(X_train_aug[i], order=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = librosa.lpc(X_test[i], order=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
 
                     if params['feature'] == 'fft':
                         rep_size = np.abs(np.fft.fft(X_train_aug[0], n=coeff))
@@ -271,19 +200,13 @@ if __name__ == '__main__':
 
                         for i in range(X_train_aug.shape[0]):
                             rep = np.abs(np.fft.fft(X_train_aug[i], n=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
+                           
 
                         for i in range(X_test.shape[0]):
                             rep = np.abs(np.fft.fft(X_test[i], n=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
-
-
+                            X_test_rep[i] = rep.flatten()
+                           
                     se = StandardScaler()
                     le = LabelEncoder()
 
@@ -303,10 +226,6 @@ if __name__ == '__main__':
                     if params['model'] == 'knn':
                         clf = KNeighborsClassifier(n_neighbors=5)
                     
-                    if params['model'] == 'mlp':
-                        unique_labels = len(np.unique(y_train_rep).tolist())
-                        print(np.unique(y_train_rep).tolist())
-                        clf = KerasClassifier(build_fn=build_perceptron, output=unique_labels, shape=X_train_rep.shape, epochs=2000, batch_size=128, verbose=0)
 
                     scoring = ['precision_macro', 'recall_macro', 'f1_macro', 'f1_micro']
                     scores = cross_validate(clf, X_train_rep, y_train_rep,
@@ -320,6 +239,7 @@ if __name__ == '__main__':
                     idx_estimator, _ = max(enumerate(scores['test_f1_micro']), key=operator.itemgetter(1))
                     estimator = scores['estimator'][idx_estimator]
                     y_hat = estimator.predict(X_test_rep)
+
                     print('[PREDICT] done')
                     fmacro = f1_score(y_test_rep, y_hat, average='macro',labels=np.unique(y_test_rep))
                     fmicro = f1_score(y_test_rep, y_hat, average='micro',labels=np.unique(y_test_rep))
@@ -336,8 +256,6 @@ if __name__ == '__main__':
                     datatable['test_size'].append(X_test.shape)
                     datatable['representation_size'].append(rep_shape)
                     datatable['algorithm'].append(args.model)
-
-                    break
 
                     df = pd.DataFrame(datatable)
 
