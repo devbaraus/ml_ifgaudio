@@ -162,17 +162,27 @@
 # done
 
 # # MFCC
+# for i in 10 18 26 34 40; do
+#     for j in 3 2 1; do
+#         python train_test_nn.py -f mfcc -c $i -s $j -a 0 -n 0 -t True -m lstm >> lstm$j.txt
+#     done 
+# done
+
 for i in 10 18 26 34 40; do
     for j in 3 2 1; do
-        python train_test_nn.py -f mfcc -c $i -s $j -a 0 -n 0 -t True -m lstm >> lstm$j.txt
+        python train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m cnn >> cnn.log
+    done 
+done
+
+for i in 10 18 26 34 40; do
+    for j in 3 2 1; do
+        python train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m lstm >> lstm.log
     done 
 done
 
 # # STFT
-for i in 256 512 1024 2048; do
-    for j in 3 2 1; do
-        python train_test_nn.py -f stft -c $i -s $j -a 0 -n 0 -t True -m lstm >> lstm$j.txt
-    done 
-done
-
-python train_test_nn.py -f mfcc -c 40 -s 3 -a 0 -n 0 -t True -m lstm
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python train_test_nn.py -f stft -c $i -s $j -a 0 -n 0 -t True -m lstm >> lstm$j.txt
+#     done 
+# done
