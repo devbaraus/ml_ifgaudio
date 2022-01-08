@@ -12,7 +12,7 @@ from sklearn.metrics import f1_score
 from sklearn.model_selection import cross_validate
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from keras.wrappers.scikit_learn import KerasClassifier
+from scikeras.wrappers import KerasClassifier
 import tensorflow.keras as keras
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
@@ -37,10 +37,11 @@ parser.add_argument('-s', nargs='+', type=int, action='store', dest='segment', r
 parser.add_argument('-t', type=bool, action='store', dest='trim', required=False, help='Use trim dataset',
                     default=False)
 parser.add_argument('-m', type=str, action='store', dest='model', required=False, help='Model algorithm',
-                    default='svm')                
+                    default='svm')
 
 args = parser.parse_args()
 now = int(time.time())
+
 
 def output_dir():
     t = ''
@@ -50,14 +51,15 @@ def output_dir():
         t += '_noise'
     if args.augmentation != [0]:
         t += f'_aug{args.augmentation[0]}'
-    
+
     return t
+
 
 def build_perceptron(output, shape, dense1=512, dense2=256, dense3=128, learning_rate=0.0001):
     model = keras.Sequential()
 
     model.add(keras.layers.Flatten(
-        input_shape=(shape[1], shape[2])))
+        input_shape=shape[1:]))
 
     model.add(keras.layers.Dense(dense1, activation='relu'))
     model.add(keras.layers.Dense(dense2, activation='relu'))
@@ -72,10 +74,11 @@ def build_perceptron(output, shape, dense1=512, dense2=256, dense3=128, learning
 
     return model
 
+
 def build_cnn(output, shape, resizing=(32, 32), conv2d1=32, conv2d2=64, dropout1=0.25, dropout2=0.5, dense=128, learning_rate=0.0001):
     from tensorflow.keras.layers.experimental import preprocessing
 
-    input_shape = (1, shape[1], 1)
+    input_shape = shape[1:]
 
     model = keras.Sequential()
     model.add(keras.layers.Input(shape=input_shape))
@@ -97,6 +100,30 @@ def build_cnn(output, shape, resizing=(32, 32), conv2d1=32, conv2d2=64, dropout1
 
     return model
 
+
+def build_lstm(output, shape, lstm=64, dropout1=0.2, dense1=64, dense2=32, dropout2=0.4, dense3=24, dropout3=0.4, learning_rate=0.0001):
+
+    input_shape = shape[1:]
+
+    model = keras.Sequential()
+    model.add(keras.layers.LSTM(lstm, input_shape=input_shape))
+    model.add(keras.layers.Dropout(dropout1))
+    model.add(keras.layers.Dense(dense1, activation='relu'))
+    model.add(keras.layers.Dense(dense2, activation='relu'))
+    model.add(keras.layers.Dropout(dropout2))
+    model.add(keras.layers.Dense(dense3, activation='relu'))
+    model.add(keras.layers.Dropout(dropout3))
+    model.add(keras.layers.Dense(output, activation='softmax'))
+
+    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
+
+    model.compile(optimizer=optimizer,
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+
+    return model
+
+
 params = {
     'segment_time': args.segment,
     'noise': args.noise,
@@ -106,7 +133,7 @@ params = {
     'trim': args.trim,
     'model': args.model,
     'output_file': f'{args.feature}_{args.model}_{now}.csv',
-    'output_dir': f'results/{args.model}/{output_dir()}'
+    'output_dir': f'results/{args.model}/{args.feature}/{output_dir()}'
 }
 
 
@@ -119,8 +146,8 @@ datatable = {
     'f1_micro': [],
     'f1_macro': [],
     'representation_size': [],
-    'train_size':[],
-    'test_size':[],
+    'train_size': [],
+    'test_size': [],
     'algorithm': []
 }
 
@@ -132,7 +159,7 @@ if False:
     augmentation = 2
     noise = 0
 
-if __name__ == '__main__':   
+if __name__ == '__main__':
     print(params)
 
     for segment in params['segment_time']:
@@ -178,15 +205,18 @@ if __name__ == '__main__':
                         SNR = Math.mag2db(1/noise)
                         potSinal = Math.rms(sinal) ** 2
                         potRuido = 1 / potSinal
-                        ruidoAditivo = np.random.randn(numAmostras) * np.std(sinal) / Math.db2mag(SNR)
+                        ruidoAditivo = np.random.randn(
+                            numAmostras) * np.std(sinal) / Math.db2mag(SNR)
                     else:
                         ruidoAditivo = np.zeros(numAmostras)
 
                     for audio_segment in range(X_train_aug.shape[0]):
                         X_train_aug[audio_segment] = X_train_aug[audio_segment] + ruidoAditivo
 
-                    X_train_aug = np.concatenate((X_train, X_train_aug), axis=0)
-                    y_train_aug = np.concatenate((y_train, y_train_aug), axis=0)
+                    X_train_aug = np.concatenate(
+                        (X_train, X_train_aug), axis=0)
+                    y_train_aug = np.concatenate(
+                        (y_train, y_train_aug), axis=0)
                 else:
                     X_train_aug = X_train
                     y_train_aug = y_train
@@ -198,28 +228,37 @@ if __name__ == '__main__':
                     rep_shape = None
 
                     if params['feature'] == 'mfcc':
-                        rep_size = librosa.feature.mfcc(X_train_aug[0], fs, n_mfcc=coeff)
+                        rep_size = librosa.feature.mfcc(
+                            X_train_aug[0], fs, n_mfcc=coeff)
                         rep_shape = rep_size.shape
-                        
-                        X_train_rep = np.zeros((X_train_aug.shape[0], rep_shape[0], rep_shape[1]))
-                        X_test_rep = np.zeros((X_test.shape[0], rep_shape[0], rep_shape[1]))
+
+                        X_train_rep = np.zeros(
+                            (X_train_aug.shape[0], rep_shape[0], rep_shape[1]))
+                        X_test_rep = np.zeros(
+                            (X_test.shape[0], rep_shape[0], rep_shape[1]))
 
                         for i in range(X_train_aug.shape[0]):
-                            rep = librosa.feature.mfcc(X_train_aug[i], fs, n_mfcc=coeff)
+                            rep = librosa.feature.mfcc(
+                                X_train_aug[i], fs, n_mfcc=coeff)
                             X_train_rep[i] = rep
 
                         for i in range(X_test.shape[0]):
-                            rep = librosa.feature.mfcc(X_test[i], fs, n_mfcc=coeff)
+                            rep = librosa.feature.mfcc(
+                                X_test[i], fs, n_mfcc=coeff)
                             X_test_rep[i] = rep
 
                     if params['feature'] == 'stft':
-                        rep_size = np.abs(librosa.stft(X_train_aug[0], n_fft=coeff))
+                        rep_size = np.abs(librosa.stft(
+                            X_train_aug[0], n_fft=coeff))
                         rep_shape = rep_size.shape
-                        X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
-                        X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
+                        X_train_rep = np.zeros(
+                            (X_train_aug.shape[0], rep_shape[0], rep_shape[1]))
+                        X_test_rep = np.zeros(
+                            (X_test.shape[0], rep_shape[0], rep_shape[1]))
 
                         for i in range(X_train_aug.shape[0]):
-                            rep = np.abs(librosa.stft(X_train_aug[i], n_fft=coeff))
+                            rep = np.abs(librosa.stft(
+                                X_train_aug[i], n_fft=coeff))
                             X_train_rep[i] = rep
 
                         for i in range(X_test.shape[0]):
@@ -229,7 +268,8 @@ if __name__ == '__main__':
                     if params['feature'] == 'lpc':
                         rep_size = librosa.lpc(X_train_aug[0], order=coeff)
                         rep_shape = rep_size.shape
-                        X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
+                        X_train_rep = np.zeros(
+                            (X_train_aug.shape[0], rep_size.size))
                         X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
                         for i in range(X_train_aug.shape[0]):
@@ -243,8 +283,9 @@ if __name__ == '__main__':
                     if params['feature'] == 'fft':
                         rep_size = np.abs(np.fft.fft(X_train_aug[0], n=coeff))
                         rep_shape = rep_size.shape
-                        X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
-                        X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
+                        X_train_rep = np.zeros(
+                            (X_train_aug.shape[0], rep_shape[0]))
+                        X_test_rep = np.zeros((X_test.shape[0], rep_shape[0]))
 
                         for i in range(X_train_aug.shape[0]):
                             rep = np.abs(np.fft.fft(X_train_aug[i], n=coeff))
@@ -254,6 +295,9 @@ if __name__ == '__main__':
                             rep = np.abs(np.fft.fft(X_test[i], n=coeff))
                             X_test_rep[i] = rep
 
+                    if params['model'] == 'cnn':
+                        X_train_rep = X_train_rep[..., np.newaxis]
+                        X_test_rep = X_test_rep[..., np.newaxis]
 
                     se = StandardScaler()
                     le = LabelEncoder()
@@ -272,57 +316,66 @@ if __name__ == '__main__':
                     unique_labels = len(np.unique(y_train_rep).tolist())
 
                     if params['model'] == 'mlp':
-                        clf = build_perceptron(unique_labels, X_train_rep.shape)
+                        # clf = build_perceptron(unique_labels, X_train_rep.shape)
+                        clf = KerasClassifier(model=build_perceptron, output=unique_labels,
+                                              shape=X_train_rep.shape, epochs=2000, batch_size=128, verbose=0)
+                    if params['model'] == 'cnn':
+                        # clf = build_cnn(unique_labels, X_train_rep.shape)
+                        clf = KerasClassifier(model=build_cnn, output=unique_labels,
+                                              shape=X_train_rep.shape, epochs=2000, batch_size=128, verbose=0)
+                    if params['model'] == 'lstm':
+                        # clf = build_lstm(unique_labels, X_train_rep.shape)
+                        clf = KerasClassifier(model=build_lstm, output=unique_labels,
+                                              shape=X_train_rep.shape, epochs=2000, batch_size=128, verbose=0)
 
-                    # scoring = ['precision_macro', 'recall_macro', 'f1_macro', 'f1_micro']
-                    # scores = cross_validate(clf, X_train_rep, y_train_rep,
-                    #                         scoring=scoring, cv=3,
-                    #                         return_train_score=True)
+                    scoring = ['precision_macro',
+                               'recall_macro', 'f1_macro', 'f1_micro']
+                    scores = cross_validate(clf, X_train_rep, y_train_rep,
+                                            scoring=scoring, cv=3,
+                                            return_estimator=True,
+                                            return_train_score=True)
 
-                    # StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
-                    # scores = cross_val_score(clf, X_train_rep, y_train_rep, cv=3)
-                    # print(scores)
-                    strat_kfold = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
-                    
-                    for train_index, valid_index in strat_kfold.split(X_train_rep, y_train_rep):
-                        X_train_fold, X_valid_fold = X_train_rep[train_index], X_train_rep[valid_index]
-                        y_train_fold, y_valid_fold = y_train_rep[train_index], y_train_rep[valid_index]
+                    # for train_index, valid_index in strat_kfold.split(X_train_rep, y_train_rep):
+                    #     X_train_fold, X_valid_fold = X_train_rep[train_index], X_train_rep[valid_index]
+                    #     y_train_fold, y_valid_fold = y_train_rep[train_index], y_train_rep[valid_index]
 
-                        clf.fit(X_train_fold, y_train_fold, validation_data=(X_valid_fold, y_valid_fold), epochs=2000, batch_size=128, verbose=0)
-                        y_pred = clf.predict(X_valid_fold)
-                        print(classification_report(y_valid_fold, y_pred))
+                    #     clf.fit(X_train_fold, y_train_fold, validation_data=(X_valid_fold, y_valid_fold), epochs=2000, batch_size=128, verbose=3)
+                    #     y_pred = clf.predict(X_valid_fold)
+                    #     print(classification_report(y_valid_fold, y_pred))
 
-                    
-                    # # PREDICT
-                    # print('[PREDICT] starting')
-                    # idx_estimator, _ = max(enumerate(scores['test_f1_micro']), key=operator.itemgetter(1))
-                    # estimator = scores['estimator'][idx_estimator]
-                    # y_hat = estimator.predict(X_test_rep)
-                    # print('[PREDICT] done')
+                    print(scores)
+                    # PREDICT
+                    print('[PREDICT] starting')
+                    idx_estimator, _ = max(
+                        enumerate(scores['test_f1_micro']), key=operator.itemgetter(1))
+                    estimator = scores['estimator'][idx_estimator]
+                    y_hat = estimator.predict(X_test_rep)
+                    print('[PREDICT] done')
 
-                    # fmacro = f1_score(y_test_rep, y_hat, average='macro',labels=np.unique(y_test_rep))
-                    # fmicro = f1_score(y_test_rep, y_hat, average='micro',labels=np.unique(y_test_rep))
+                    fmacro = f1_score(
+                        y_test_rep, y_hat, average='macro', labels=np.unique(y_test_rep))
+                    fmicro = f1_score(
+                        y_test_rep, y_hat, average='micro', labels=np.unique(y_test_rep))
 
-                    # print('[DATA] saving')
-                    # datatable['feature'].append(params['feature'])
-                    # datatable['feature_coeff'].append(coeff)
-                    # datatable['segment_time'].append(segment)
-                    # datatable['noise_percentage'].append(noise)
-                    # datatable['augmentation'].append(augmentation)
-                    # datatable['f1_micro'].append(fmicro)
-                    # datatable['f1_macro'].append(fmacro)
-                    # datatable['train_size'].append(X_train.shape)
-                    # datatable['test_size'].append(X_test.shape)
-                    # datatable['representation_size'].append(rep_shape)
-                    # datatable['algorithm'].append(args.model)
+                    print('[DATA] saving')
+                    datatable['feature'].append(params['feature'])
+                    datatable['feature_coeff'].append(coeff)
+                    datatable['segment_time'].append(segment)
+                    datatable['noise_percentage'].append(noise)
+                    datatable['augmentation'].append(augmentation)
+                    datatable['f1_micro'].append(fmicro)
+                    datatable['f1_macro'].append(fmacro)
+                    datatable['train_size'].append(X_train.shape)
+                    datatable['test_size'].append(X_test.shape)
+                    datatable['representation_size'].append(rep_shape)
+                    datatable['algorithm'].append(args.model)
 
-                    # break
+                    df = pd.DataFrame(datatable)
 
-                    # df = pd.DataFrame(datatable)
+                    if not os.path.exists(params['output_dir']):
+                        os.makedirs(params['output_dir'])
 
-                    # if not os.path.exists(params['output_dir']):
-                    #     os.makedirs(params['output_dir'])
+                    df.to_csv(params['output_dir'] + '/' +
+                              params['output_file'], index=False)
 
-                    # df.to_csv(params['output_dir'] + '/' + params['output_file'], index=False)
-
-                    # del X_train_rep, X_test_rep, y_train_rep, y_test_rep
+                    del X_train_rep, X_test_rep, y_train_rep, y_test_rep

@@ -1,0 +1,603 @@
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [10], 'augmentation': [0], 'feature': 'mfcc', 'trim': True, 'model': 'lstm', 'output_file': 'mfcc_lstm_1641403073.csv', 'output_dir': 'results/lstm/mfcc/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[MFCC]  10
+[TRAIN] starting
+{'fit_time': array([145.84700036, 145.00499988, 143.34300303]), 'score_time': array([0.32900071, 0.31599689, 0.30600142]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x00000256D7E558B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 10, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x00000256D7E558B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 10, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x00000256D7E558B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 10, 47)
+	class_weight=None
+)], 'test_precision_macro': array([0.18963012, 0.18443182, 0.15104836]), 'train_precision_macro': array([0.38716956, 0.41617624, 0.38716753]), 'test_recall_macro': array([0.20553324, 0.2096714 , 0.18370565]), 'train_recall_macro': array([0.38731473, 0.42136361, 0.39467163]), 'test_f1_macro': array([0.17718792, 0.180634  , 0.15513047]), 'train_f1_macro': array([0.33514068, 0.37505569, 0.35110667]), 'test_f1_micro': array([0.21802002, 0.21913237, 0.19153675]), 'train_f1_micro': array([0.41068447, 0.44184752, 0.42046719])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [18], 'augmentation': [0], 'feature': 'mfcc', 'trim': True, 'model': 'lstm', 'output_file': 'mfcc_lstm_1641403968.csv', 'output_dir': 'results/lstm/mfcc/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[MFCC]  18
+[TRAIN] starting
+{'fit_time': array([172.79157519, 179.84945107, 171.46219635]), 'score_time': array([0.35900044, 0.33700109, 0.34299779]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x00000241FC7248B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 18, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x00000241FC7248B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 18, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x00000241FC7248B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 18, 47)
+	class_weight=None
+)], 'test_precision_macro': array([0.10970932, 0.17048021, 0.12656205]), 'train_precision_macro': array([0.3248481 , 0.42515817, 0.42042954]), 'test_recall_macro': array([0.13818206, 0.18607541, 0.1605986 ]), 'train_recall_macro': array([0.36902926, 0.41462102, 0.4392307 ]), 'test_f1_macro': array([0.10499408, 0.16177562, 0.12619725]), 'train_f1_macro': array([0.30743385, 0.37908969, 0.38770706]), 'test_f1_micro': array([0.14794216, 0.19243604, 0.17037862]), 'train_f1_micro': array([0.38953812, 0.42570952, 0.45550612])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [26], 'augmentation': [0], 'feature': 'mfcc', 'trim': True, 'model': 'lstm', 'output_file': 'mfcc_lstm_1641405021.csv', 'output_dir': 'results/lstm/mfcc/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[MFCC]  26
+[TRAIN] starting
+{'fit_time': array([194.15014195, 191.21834946, 209.44927669]), 'score_time': array([0.36310863, 0.36399889, 0.31700325]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x00000258115348B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 26, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x00000258115348B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 26, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x00000258115348B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 26, 47)
+	class_weight=None
+)], 'test_precision_macro': array([0.08561694, 0.15425965, 0.08430678]), 'train_precision_macro': array([0.30424226, 0.42153094, 0.25355866]), 'test_recall_macro': array([0.12239053, 0.16899391, 0.10070537]), 'train_recall_macro': array([0.33223849, 0.41417129, 0.27174759]), 'test_f1_macro': array([0.09130191, 0.14039271, 0.07538824]), 'train_f1_macro': array([0.27936964, 0.37117252, 0.21127417]), 'test_f1_micro': array([0.13125695, 0.17686318, 0.11024499]), 'train_f1_micro': array([0.35559265, 0.43739566, 0.30367075])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [34], 'augmentation': [0], 'feature': 'mfcc', 'trim': True, 'model': 'lstm', 'output_file': 'mfcc_lstm_1641406176.csv', 'output_dir': 'results/lstm/mfcc/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[MFCC]  34
+[TRAIN] starting
+{'fit_time': array([207.00823522, 200.74158859, 198.0965054 ]), 'score_time': array([0.34500408, 0.36500072, 0.329     ]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x0000022866385820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 34, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x0000022866385820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 34, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x0000022866385820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 34, 47)
+	class_weight=None
+)], 'test_precision_macro': array([0.17661726, 0.0972333 , 0.21428048]), 'train_precision_macro': array([0.5223862 , 0.39645507, 0.54017505]), 'test_recall_macro': array([0.21329884, 0.13606475, 0.20198946]), 'train_recall_macro': array([0.48666104, 0.39025692, 0.51829525]), 'test_f1_macro': array([0.17905007, 0.10349347, 0.17844743]), 'train_f1_macro': array([0.44256571, 0.33182118, 0.47323791]), 'test_f1_micro': array([0.2246941 , 0.1512792 , 0.21826281]), 'train_f1_micro': array([0.5114079 , 0.41903172, 0.54171301])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [40], 'augmentation': [0], 'feature': 'mfcc', 'trim': True, 'model': 'lstm', 'output_file': 'mfcc_lstm_1641407371.csv', 'output_dir': 'results/lstm/mfcc/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[MFCC]  40
+[TRAIN] starting
+{'fit_time': array([209.41977954, 208.09993672, 208.64611483]), 'score_time': array([0.34499836, 0.32299995, 0.32700205]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x0000015221BD58B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 40, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x0000015221BD58B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 40, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x0000015221BD58B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 40, 47)
+	class_weight=None
+)], 'test_precision_macro': array([0.18669081, 0.14866387, 0.16322138]), 'train_precision_macro': array([0.52688371, 0.42130668, 0.43853975]), 'test_recall_macro': array([0.20455168, 0.17528525, 0.16567017]), 'train_recall_macro': array([0.45901021, 0.41841663, 0.43337159]), 'test_f1_macro': array([0.17159719, 0.14089349, 0.14223726]), 'train_f1_macro': array([0.41830695, 0.35968582, 0.3848528 ]), 'test_f1_micro': array([0.22358176, 0.18798665, 0.17706013]), 'train_f1_micro': array([0.48914858, 0.44240401, 0.45606229])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [256], 'augmentation': [0], 'feature': 'stft', 'trim': True, 'model': 'lstm', 'output_file': 'stft_lstm_1641409881.csv', 'output_dir': 'results/lstm/stft/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[STFT]  256
+[TRAIN] starting
+{'fit_time': array([563.48814011, 558.73451209, 542.87400508]), 'score_time': array([0.61100173, 0.62100005, 0.52799511]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x0000019EB4D25820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 129, 376)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x0000019EB4D25820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 129, 376)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x0000019EB4D25820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 129, 376)
+	class_weight=None
+)], 'test_precision_macro': array([0.04684458, 0.02974853, 0.05424479]), 'train_precision_macro': array([0.19936026, 0.21415205, 0.24863348]), 'test_recall_macro': array([0.0605702 , 0.06220912, 0.07944529]), 'train_recall_macro': array([0.24392029, 0.24044286, 0.26632348]), 'test_f1_macro': array([0.0402838 , 0.03648829, 0.04917729]), 'train_f1_macro': array([0.19421608, 0.19344071, 0.21673898]), 'test_f1_micro': array([0.07230256, 0.0756396 , 0.09576837]), 'train_f1_micro': array([0.27100723, 0.26377295, 0.29310345])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [512], 'augmentation': [0], 'feature': 'stft', 'trim': True, 'model': 'lstm', 'output_file': 'stft_lstm_1641414013.csv', 'output_dir': 'results/lstm/stft/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[STFT]  512
+[TRAIN] starting
+{'fit_time': array([803.61352324, 814.04528952, 831.94453716]), 'score_time': array([0.71899962, 0.61600184, 0.56400037]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x000002291DDD58B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 257, 188)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x000002291DDD58B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 257, 188)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x000002291DDD58B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 257, 188)
+	class_weight=None
+)], 'test_precision_macro': array([0.05276203, 0.0547878 , 0.0518695 ]), 'train_precision_macro': array([0.13665331, 0.12935394, 0.14759699]), 'test_recall_macro': array([0.07724784, 0.10179025, 0.0912293 ]), 'train_recall_macro': array([0.15555997, 0.18091588, 0.22045409]), 'test_f1_macro': array([0.04815169, 0.06365357, 0.05299656]), 'train_f1_macro': array([0.11461777, 0.12535628, 0.14514939]), 'test_f1_micro': array([0.09566185, 0.12347052, 0.1091314 ]), 'train_f1_micro': array([0.17918753, 0.21368948, 0.2541713 ])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [1024], 'augmentation': [0], 'feature': 'stft', 'trim': True, 'model': 'lstm', 'output_file': 'stft_lstm_1641419868.csv', 'output_dir': 'results/lstm/stft/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[STFT]  1024
+[TRAIN] starting
+{'fit_time': array([1237.31158805, 1475.14219952, 1327.55984902]), 'score_time': array([1.0989995 , 4.62838769, 0.6599977 ]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x000001C3B28848B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 513, 94)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x000001C3B28848B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 513, 94)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x000001C3B28848B0>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 513, 94)
+	class_weight=None
+)], 'test_precision_macro': array([0.02558667, 0.04305586, 0.03325358]), 'train_precision_macro': array([0.05735718, 0.09231703, 0.04818959]), 'test_recall_macro': array([0.05704885, 0.08975694, 0.08230624]), 'train_recall_macro': array([0.08125552, 0.12782012, 0.09420661]), 'test_f1_macro': array([0.02703723, 0.04792893, 0.03942994]), 'train_f1_macro': array([0.05010797, 0.08404609, 0.04905534]), 'test_f1_micro': array([0.07007786, 0.11457175, 0.10467706]), 'train_f1_micro': array([0.09738453, 0.15470228, 0.11846496])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving
+{'segment_time': [1], 'noise': [0.0], 'coeffs': [2048], 'augmentation': [0], 'feature': 'stft', 'trim': True, 'model': 'lstm', 'output_file': 'stft_lstm_1641429143.csv', 'output_dir': 'results/lstm/stft/_trim'}
+[SEG]  1
+[AUG]  0
+[NOISE]  0.0
+[STFT]  2048
+[TRAIN] starting
+{'fit_time': array([2126.98478675, 2092.30198431, 2152.46380615]), 'score_time': array([0.87504911, 0.95600128, 0.76999879]), 'estimator': [KerasClassifier(
+	model=<function build_lstm at 0x000001B301105820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 1025, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x000001B301105820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 1025, 47)
+	class_weight=None
+), KerasClassifier(
+	model=<function build_lstm at 0x000001B301105820>
+	build_fn=None
+	warm_start=False
+	random_state=None
+	optimizer=rmsprop
+	loss=None
+	metrics=None
+	batch_size=128
+	validation_batch_size=None
+	verbose=0
+	callbacks=None
+	validation_split=0.0
+	shuffle=True
+	run_eagerly=False
+	epochs=2000
+	output=96
+	shape=(2696, 1025, 47)
+	class_weight=None
+)], 'test_precision_macro': array([0.040055  , 0.03366172, 0.03922398]), 'train_precision_macro': array([0.05783172, 0.0341242 , 0.05695394]), 'test_recall_macro': array([0.07996987, 0.09000687, 0.09256224]), 'train_recall_macro': array([0.09904373, 0.09284405, 0.11163665]), 'test_f1_macro': array([0.03898869, 0.03626147, 0.04732304]), 'train_f1_macro': array([0.05840613, 0.04049047, 0.0633556 ]), 'test_f1_micro': array([0.09899889, 0.11679644, 0.11247216]), 'train_f1_micro': array([0.12075682, 0.12020033, 0.13570634])}
+[PREDICT] starting
+[PREDICT] done
+[DATA] saving

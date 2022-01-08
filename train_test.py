@@ -50,54 +50,6 @@ def output_dir():
     
     return t
 
-def build_perceptron(output, shape, dense1=512, dense2=256, dense3=128, learning_rate=0.0001):
-    import tensorflow.keras as keras
-
-    model = keras.Sequential()
-
-    model.add(keras.layers.Flatten(
-        input_shape=(shape[1], shape[2])))
-
-    model.add(keras.layers.Dense(dense1, activation='relu'))
-    model.add(keras.layers.Dense(dense2, activation='relu'))
-    model.add(keras.layers.Dense(dense3, activation='relu'))
-    model.add(keras.layers.Dense(output, activation='softmax'))
-
-    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
-
-    model.compile(optimizer=optimizer,
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
-
-    return model
-
-def build_cnn(output, shape, resizing=(32, 32), conv2d1=32, conv2d2=64, dropout1=0.25, dropout2=0.5, dense=128, learning_rate=0.0001):
-    import tensorflow.keras as keras
-    from tensorflow.keras.layers.experimental import preprocessing
-
-
-    input_shape = (1, shape[1], 1)
-
-    model = keras.Sequential()
-    model.add(keras.layers.Input(shape=input_shape))
-    model.add(preprocessing.Resizing(resizing[0], resizing[1]))
-    model.add(keras.layers.Conv2D(conv2d1, 3, activation='relu'))
-    model.add(keras.layers.Conv2D(conv2d2, 3, activation='relu'))
-    model.add(keras.layers.MaxPooling2D())
-    model.add(keras.layers.Dropout(dropout1))
-    model.add(keras.layers.Flatten())
-    model.add(keras.layers.Dense(dense, activation='relu'))
-    model.add(keras.layers.Dropout(dropout2))
-    model.add(keras.layers.Dense(output,  activation='softmax'))
-
-    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
-
-    model.compile(optimizer=optimizer,
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
-
-    return model
-
 params = {
     'segment_time': args.segment,
     'noise': args.noise,

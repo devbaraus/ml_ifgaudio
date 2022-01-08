@@ -1,0 +1,2 @@
+,feature,segment_time,noise_percentage,feature_coeff,augmentation,f1_micro,f1_macro,representation_size,train_size,test_size
+0,mfcc,4,0.0,10,10,0.75,0.6854887218045114,"(10, 188)","(656, 96000)","(164, 96000)"

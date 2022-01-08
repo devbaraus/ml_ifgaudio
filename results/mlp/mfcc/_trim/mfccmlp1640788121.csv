@@ -1,0 +1,2 @@
+feature,segment_time,noise_percentage,feature_coeff,augmentation,f1_micro,f1_macro,representation_size,train_size,test_size,algorithm
+mfcc,2,0.0,18,0,0.7448275862068966,0.7180006336256337,"(18, 94)","(1157, 48000)","(290, 48000)",mlp

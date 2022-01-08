@@ -1,0 +1,2 @@
+feature,segment_time,noise_percentage,feature_coeff,augmentation,f1_micro,f1_macro,representation_size,train_size,test_size,algorithm
+mfcc,2,0.0,34,0,0.14482758620689656,0.1063409735187986,"(34, 94)","(1157, 48000)","(290, 48000)",lstm
