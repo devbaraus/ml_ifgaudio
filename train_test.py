@@ -59,7 +59,7 @@ params = {
     'trim': args.trim,
     'model': args.model,
     'output_file': f'{args.feature}_{args.model}_{now}.csv',
-    'output_dir': f'results/{args.model}/{output_dir()}'
+    'output_dir': f'results/{args.model}/{args.feature}/{output_dir()}'
 }
 
 
@@ -154,26 +154,17 @@ if __name__ == '__main__':
                         rep_size = librosa.feature.mfcc(X_train_aug[0], fs, n_mfcc=coeff)
                         rep_shape = rep_size.shape
                         
-                        if params['model'] in ['svm', 'knn']:
-                            X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
-                            X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
-                        else:
-                            X_train_rep = np.zeros((X_train_aug.shape[0], rep_shape[0], rep_shape[1]))
-                            X_test_rep = np.zeros((X_test.shape[0], rep_shape[0], rep_shape[1]))
+                        X_train_rep = np.zeros((X_train_aug.shape[0], rep_size.size))
+                        X_test_rep = np.zeros((X_test.shape[0], rep_size.size))
 
                         for i in range(X_train_aug.shape[0]):
                             rep = librosa.feature.mfcc(X_train_aug[i], fs, n_mfcc=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = librosa.feature.mfcc(X_test[i], fs, n_mfcc=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
+
 
                     if params['feature'] == 'stft':
                         rep_size = np.abs(librosa.stft(X_train_aug[0], n_fft=coeff))
@@ -183,17 +174,11 @@ if __name__ == '__main__':
 
                         for i in range(X_train_aug.shape[0]):
                             rep = np.abs(librosa.stft(X_train_aug[i], n_fft=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = np.abs(librosa.stft(X_test[i], n_fft=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
 
                     if params['feature'] == 'lpc':
                         rep_size = librosa.lpc(X_train_aug[0], order=coeff)
@@ -203,17 +188,11 @@ if __name__ == '__main__':
 
                         for i in range(X_train_aug.shape[0]):
                             rep = librosa.lpc(X_train_aug[i], order=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = librosa.lpc(X_test[i], order=coeff)
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
 
                     if params['feature'] == 'fft':
                         rep_size = np.abs(np.fft.fft(X_train_aug[0], n=coeff))
@@ -223,17 +202,11 @@ if __name__ == '__main__':
 
                         for i in range(X_train_aug.shape[0]):
                             rep = np.abs(np.fft.fft(X_train_aug[i], n=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_train_rep[i] = rep.flatten()
-                            else:
-                                X_train_rep[i] = rep
+                            X_train_rep[i] = rep.flatten()
 
                         for i in range(X_test.shape[0]):
                             rep = np.abs(np.fft.fft(X_test[i], n=coeff))
-                            if params['model'] in ['svm', 'knn']:
-                                X_test_rep[i] = rep.flatten()
-                            else:
-                                X_test_rep[i] = rep
+                            X_test_rep[i] = rep.flatten()
 
 
                     se = StandardScaler()
@@ -255,11 +228,6 @@ if __name__ == '__main__':
                     if params['model'] == 'knn':
                         clf = KNeighborsClassifier(n_neighbors=5)
                     
-                    if params['model'] == 'mlp':
-                        unique_labels = len(np.unique(y_train_rep).tolist())
-                        print(np.unique(y_train_rep).tolist())
-                        clf = KerasClassifier(build_fn=build_perceptron, output=unique_labels, shape=X_train_rep.shape, epochs=2000, batch_size=128, verbose=0)
-
                     scoring = ['precision_macro', 'recall_macro', 'f1_macro', 'f1_micro']
                     scores = cross_validate(clf, X_train_rep, y_train_rep,
                                             scoring=scoring, cv=3,
@@ -288,8 +256,6 @@ if __name__ == '__main__':
                     datatable['test_size'].append(X_test.shape)
                     datatable['representation_size'].append(rep_shape)
                     datatable['algorithm'].append(args.model)
-
-                    break
 
                     df = pd.DataFrame(datatable)
 

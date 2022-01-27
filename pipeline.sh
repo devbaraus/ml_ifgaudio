@@ -168,21 +168,138 @@
 #     done 
 # done
 
-for i in 10 18 26 34 40; do
-    for j in 3 2 1; do
-        python train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m cnn >> cnn.log
-    done 
-done
-
-for i in 10 18 26 34 40; do
-    for j in 3 2 1; do
-        python train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m lstm >> lstm.log
-    done 
-done
-
-# # STFT
-# for i in 256 512 1024 2048; do
+# for i in 10 18 26 34 40; do
 #     for j in 3 2 1; do
-#         python train_test_nn.py -f stft -c $i -s $j -a 0 -n 0 -t True -m lstm >> lstm$j.txt
+#         python3 train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m mlp >> cnn.log
 #     done 
 # done
+
+# for i in 10 18 26 34 40; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m cnn >> cnn.log
+#     done 
+# done
+
+# for i in 10 18 26 34 40; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f mfcc -c $i -s $j -a 3 -t True -m lstm >> lstm.log
+#     done 
+# done
+
+# # # STFT
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f stft -c $i -s $j -a 3 -t True -m mlp >> stftmlp.log
+#     done 
+# done
+# # # STFT
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f stft -c $i -s $j -a 3 -t True -m cnn >> stftcnn.log
+#     done 
+# done
+# # # STFT
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f stft -c $i -s $j -a 3 -t True -m lstm >> stftlstm.log
+#     done 
+# done
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f lpc -c $i -s $j -a 3 -t True -m mlp >> lpcmlp.log
+#     done 
+# done
+
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f lpc -c $i -s $j -a 0 -n 0 -t True -m cnn >> lpccnn.log
+#     done 
+# done
+
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f lpc -c $i -s $j -a 0 -n 0 -t True -m lstm >> lpclstm.log
+#     done 
+# done
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f lpc -c $i -s $j -a 3 -t True -m cnn >> lpccnn.log
+#     done 
+# done
+
+
+# for j in 2 1; do
+#     python3 train_test_nn.py -f lpc -c 512 -s $j -a 3 -t True -m lstm >> lpclstm.log
+# done 
+
+# for i in 10 18 26 34 40; do
+#     for j in 3 2 1; do
+#         python3 train_test.py -f mfcc -c $i -s $j -a 3 -t True -m knn >> mfccknn.log
+#         python3 train_test.py -f mfcc -c $i -s $j -a 3 -t True -m svm >> mfccsvm.log
+#     done 
+# done
+
+for i in 256 512 1024 2048; do
+    for j in 3 2 1; do
+        python3 train_test.py -f lpc -c $i -s $j -a 3 -t True -m knn >> lpcknn.log
+        python3 train_test.py -f lpc -c $i -s $j -a 3 -t True -m svm >> lpcsvm.log
+    done 
+done
+
+for i in 256 512 1024 2048; do
+    for j in 3 2 1; do
+        python3 train_test.py -f fft -c $i -s $j -a 3 -t True -m knn >> fftknn.log
+        python3 train_test.py -f fft -c $i -s $j -a 3 -t True -m svm >> fftsvm.log
+    done 
+done
+
+for i in 256 512 1024 2048; do
+    for j in 3 2 1; do
+        python3 train_test.py -f stft -c $i -s $j -a 3 -t True -m knn >> stftknn.log
+        python3 train_test.py -f stft -c $i -s $j -a 3 -t True -m svm >> stftsvm.log
+    done 
+done
+
+
+# for i in 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f lpc -c $i -s $j -a 3 -t True -m lstm >> lpclstm.log
+#     done 
+# done
+
+
+
+# ------------
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f fft -c $i -s $j -a 0 -n 0 -t True -m cnn >> lpccnn.log
+#     done 
+# done
+
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f fft -c $i -s $j -a 0 -n 0 -t True -m lstm >> lpclstm.log
+#     done 
+# done
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f fft -c $i -s $j -a 3 -t True -m cnn >> lpccnn.log
+#     done 
+# done
+
+
+# for i in 256 512 1024 2048; do
+#     for j in 3 2 1; do
+#         python3 train_test_nn.py -f fft -c $i -s $j -a 3 -t True -m lstm >> lpclstm.log
+#     done 
+# done
+
+
+
+# python3 train_test_nn.py -f lpc -c 512 -s 3 -a 3 -t True -m cnn

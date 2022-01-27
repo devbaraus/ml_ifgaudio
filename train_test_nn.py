@@ -3,6 +3,11 @@ import multiprocessing
 import operator
 import os
 
+# import tensorflow as tf
+
+# physical_devices = tf.config.experimental.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
 import librosa.display
 import numpy as np
 from numpy.core.fromnumeric import repeat
@@ -296,8 +301,17 @@ if __name__ == '__main__':
                             X_test_rep[i] = rep
 
                     if params['model'] == 'cnn':
-                        X_train_rep = X_train_rep[..., np.newaxis]
-                        X_test_rep = X_test_rep[..., np.newaxis]
+                        if len(X_train_rep.shape) == 2:
+                            X_train_rep = X_train_rep[..., np.newaxis, np.newaxis]
+                            X_test_rep = X_test_rep[..., np.newaxis, np.newaxis]
+                        else:
+                            X_train_rep = X_train_rep[..., np.newaxis]
+                            X_test_rep = X_test_rep[..., np.newaxis]
+
+                    if params['model'] == 'lstm':
+                        if len(X_train_rep.shape) == 2:
+                            X_train_rep = X_train_rep[..., np.newaxis]
+                            X_test_rep = X_test_rep[..., np.newaxis]
 
                     se = StandardScaler()
                     le = LabelEncoder()

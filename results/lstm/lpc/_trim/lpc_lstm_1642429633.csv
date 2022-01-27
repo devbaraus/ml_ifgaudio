@@ -1,0 +1,2 @@
+feature,segment_time,noise_percentage,feature_coeff,augmentation,f1_micro,f1_macro,representation_size,train_size,test_size,algorithm
+lpc,2,0.0,512,0,0.06206896551724138,0.010235685981603716,"(513,)","(1157, 48000)","(290, 48000)",lstm
