@@ -1,0 +1,2 @@
+feature,segment_time,noise_percentage,feature_coeff,augmentation,f1_micro,f1_macro,representation_size,train_size,test_size,algorithm
+fft,2,0.0,2048,0,0.07931034482758621,0.043524184918055174,"(2048,)","(1157, 48000)","(290, 48000)",lstm
