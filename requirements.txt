@@ -78,6 +78,6 @@ typing-extensions==4.0.1
 unattended-upgrades==0.1
 urllib3==1.25.8
 virtualenv==20.0.17
-Werkzeug==2.0.2
+Werkzeug==2.2.3
 wrapt==1.13.3
 zipp==1.0.0
